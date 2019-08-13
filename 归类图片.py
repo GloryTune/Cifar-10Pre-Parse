@@ -1,23 +1,37 @@
 #图片归类 姓名：杨天佑 学号：201820001085
 import os
 import shutil
-class GuiLei():
-    def __init__(self):
-        self.path = 'd:\\pachong\\train'#原始文件夹 包含以0-9为类标的所有图片 0代表airplane， 1代表automobile...
-        self.new_path = 'c:\\Users\\杨天佑\\Desktop\\automobile'#要归类到的目标路径
-    def gui(self):
-        filelist = os.listdir(self.path)#将原始路径的文件夹下的所有文件名存储到一个列表中
-        i=1
-        for item in filelist:
-            if item.startswith('1.'):#判断：将0开头的图片归类这里0代表airplane
-                shutil.copyfile(os.path.join(self.path, item),os.path.join(self.new_path, 'automobile.' + str(i) + '.jpeg'))#这里用到shutil库的copy函数，前面的参数是原始路径，后面是目标路径，并且完成重命名
-                i+=1
-                print('正在归类中...')
-        print('归类完毕！')
+l_name = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+path1 = 'd:\\cifar\\train\\'
+path2 = 'd:\\cifar\\test\\'
+for i in l_name:
+    if not os.path.exists(path1+i):
+        os.makedirs(path1+i)
+for q in l_name:
+    if not os.path.exists(path2 + q):
+        os.makedirs(path2 + q)
+ori_testpath = 'D:\\cifar10PRE\\test'
+ori_trainpath= 'D:\\cifar10PRE\\train'
+filelist = os.listdir(ori_testpath)
+filelist1 = os.listdir(ori_trainpath)
+o = 1
+for item in filelist:
+    for num in range(0,10):
+        if item.startswith(str(num)+'.'):
+            shutil.copyfile(os.path.join(ori_testpath, item), os.path.join(path2+l_name[num], l_name[num] + str(o) + '.jpeg'))
+            print('正在归类中...')
+            o+=10
+print('test归类完毕！')
+n = 1
+for item1 in filelist1:
+    for num1 in range(0, 10):
+        if item1.startswith(str(num1)+ '.'):
+            shutil.copyfile(os.path.join(ori_trainpath, item1),
+                            os.path.join(path1 + l_name[num1], l_name[num1] + str(n) + '.jpeg'))
+            print('正在归类中...')
+            n += 1
+print('train归类完毕！')
 
-if __name__ == '__main__':
-    demo = GuiLei()
-    demo.gui()
 
 
 
